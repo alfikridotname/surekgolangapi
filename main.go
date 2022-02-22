@@ -27,6 +27,8 @@ func main() {
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
 	userHandler := handler.NewUserHandler(userService, authService)
+	// Kategori Penerima
+	kategoriPenerimaHandler := handler.GetKategoriPenerima
 	// Master Naskah
 	masterNaskahRepository := naskah.NewRepository(db)
 	masterNaskahService := naskah.NewService(masterNaskahRepository)
@@ -41,5 +43,6 @@ func main() {
 	api.POST("/login", userHandler.Login)
 	api.GET("/naskah", middleware.AuthMiddleware(authService, userService), masterNaskahHandler.GetAll)
 	api.GET("/pejabat", middleware.AuthMiddleware(authService, userService), pejabatHandler.GetByUnitKerjaID)
+	api.GET("/kategori-penerima", middleware.AuthMiddleware(authService, userService), kategoriPenerimaHandler)
 	r.Run(":8080")
 }
