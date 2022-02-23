@@ -24,6 +24,8 @@ func (r *repository) FindByUnitKerjaID(unitKerjaID int, kategori string) ([]Mast
 						A.jabatan_id,
 						A.jabatan_nm,
 						A.nama,
+						A.kategori,
+						A.nip,
 						A.eselon_id
 					FROM
 						master_pegawai A

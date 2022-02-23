@@ -4,13 +4,17 @@ type PejabatFormatter struct {
 	JabatanID int    `json:"jabatan_id"`
 	JabatanNM string `json:"jabatan_nm"`
 	Nama      string `json:"nama"`
+	Kategori  string `json:"kategori"`
+	Nip       string `json:"nip"`
 }
 
-func FormatPejabat(signer MasterPejabat) PejabatFormatter {
+func FormatPejabat(pejabat MasterPejabat) PejabatFormatter {
 	return PejabatFormatter{
-		JabatanID: signer.JabatanID,
-		JabatanNM: signer.JabatanNM,
-		Nama:      signer.Nama,
+		JabatanID: pejabat.JabatanID,
+		JabatanNM: pejabat.JabatanNM,
+		Nama:      pejabat.Nama,
+		Kategori:  pejabat.Kategori,
+		Nip:       pejabat.Nip,
 	}
 }
 
