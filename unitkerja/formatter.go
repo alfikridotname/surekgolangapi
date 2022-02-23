@@ -5,11 +5,11 @@ type UnitKerjaFormatter struct {
 	Name string `json:"name"`
 }
 
-func FormatUnitKerja(masterUnitKerja MasterUnitKerja) UnitKerjaFormatter {
-	return UnitKerjaFormatter{
-		ID:   masterUnitKerja.ID,
-		Name: masterUnitKerja.Name,
-	}
+func FormatUnitKerja(unitKerja MasterUnitKerja) UnitKerjaFormatter {
+	var unitKerjaFormatter UnitKerjaFormatter
+	unitKerjaFormatter.ID = unitKerja.ID
+	unitKerjaFormatter.Name = unitKerja.Name
+	return unitKerjaFormatter
 }
 
 func FormatMultipleUnitKerja(masterUnitKerja []MasterUnitKerja) []UnitKerjaFormatter {
