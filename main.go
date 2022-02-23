@@ -7,10 +7,12 @@ import (
 	"surekapi/middleware"
 	"surekapi/naskah"
 	"surekapi/pejabat"
+	"surekapi/surat"
 	"surekapi/unitkerja"
 	"surekapi/user"
 
 	"github.com/gin-gonic/gin"
+	uuid "github.com/satori/go.uuid"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -22,6 +24,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	suratRepo := surat.NewRepository(db)
+	mantap := surat.MasterSurat{}
+	mantap.ID = uuid.NewV4()
+	mantap.KategoriPenerimaID = 1
+	suratRepo.Save(mantap)
 
 	// User dan Login
 	userRepository := user.NewRepository(db)
