@@ -5,10 +5,10 @@ type UnitKerjaFormatter struct {
 	Name string `json:"name"`
 }
 
-func FormatUnitKerja(unitKerja MasterUnitKerja) UnitKerjaFormatter {
+func FormatUnitKerja(masterUnitKerja MasterUnitKerja) UnitKerjaFormatter {
 	return UnitKerjaFormatter{
-		ID:   unitKerja.ID,
-		Name: unitKerja.Name,
+		ID:   masterUnitKerja.ID,
+		Name: masterUnitKerja.Name,
 	}
 }
 
