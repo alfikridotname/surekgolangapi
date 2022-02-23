@@ -46,6 +46,8 @@ func main() {
 	keamananHandler := handler.GetKeamanan
 	// Kecepatan
 	kecepatanHandler := handler.GetKecepatan
+	// Pemeriksa Konsep Surat
+	pemeriksaKonsepSuratHandler := handler.GetPemeriksa
 
 	r := gin.Default()
 	api := r.Group("/api/v1")
@@ -56,5 +58,6 @@ func main() {
 	api.GET("/unit-kerja", middleware.AuthMiddleware(authService, userService), unitKerjaHandler.GetAll)
 	api.GET("/keamanan", middleware.AuthMiddleware(authService, userService), keamananHandler)
 	api.GET("/kecepatan", middleware.AuthMiddleware(authService, userService), kecepatanHandler)
+	api.GET("/pemeriksa", middleware.AuthMiddleware(authService, userService), pemeriksaKonsepSuratHandler)
 	r.Run(":8080")
 }
