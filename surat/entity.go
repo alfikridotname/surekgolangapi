@@ -14,7 +14,7 @@ type MasterSurat struct {
 	AtasNamaID         int       `json:"atas_nama_id"`
 	KeamananID         int       `json:"keamanan_id"`
 	KecepatanID        int       `json:"kecepatan_id"`
-	Tgl                time.Time `json:"tgl"`
+	Tgl                string    `json:"tgl"`
 	Perihal            string    `json:"perihal"`
 	Isi                string    `json:"isi"`
 	CreatedAt          time.Time `json:"created_at"`
@@ -23,11 +23,20 @@ type MasterSurat struct {
 	UpdatedBy          int       `json:"updated_by"`
 }
 
+type MasterTembusan struct {
+	ID            int       `gorm:"primary_key" json:"id"`
+	MasterSuratID uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4()"`
+	JabatanID     int       `json:"jabatan_id"`
+}
+
 type Tabler interface {
 	TableName() string
 }
 
-// TableName overrides the table name used by User to `profiles`
 func (MasterSurat) TableName() string {
 	return "master_surat"
+}
+
+func (MasterTembusan) TableName() string {
+	return "master_tembusan"
 }
