@@ -54,14 +54,16 @@ func strukturPemeriksa(nipPembuat string, nipPemeriksa string) (string, bool) {
 	result := responseSimpeg["result"].(map[string]interface{})
 	nipSimpeg := result["nip"].(string)
 	namaAsnSimpeg := result["nama_pns"].(string)
+	jabatanIDSimpeg := result["jabatan_id"].(string)
 	jabatanAsnSimpeg := result["jabatan_nm"].(string)
 
 	if nipAwal != nipSimpeg {
 		nipAwal = nipSimpeg
 		data := map[string]string{
-			"jabatan": jabatanAsnSimpeg,
-			"nip":     nipSimpeg,
-			"nama":    namaAsnSimpeg,
+			"jabatan_id": jabatanIDSimpeg,
+			"jabatan":    jabatanAsnSimpeg,
+			"nip":        nipSimpeg,
+			"nama":       namaAsnSimpeg,
 		}
 
 		s = append(s, data)
