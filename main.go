@@ -42,6 +42,8 @@ func main() {
 	unitKerjaRepository := unitkerja.NewRepository(db)
 	unitKerjaService := unitkerja.NewService(unitKerjaRepository)
 	unitKerjaHandler := handler.NewUnitKerjaHandler(unitKerjaService)
+	// Kategori Penerima
+	keamananHandler := handler.GetKeamanan
 
 	r := gin.Default()
 	api := r.Group("/api/v1")
@@ -50,5 +52,6 @@ func main() {
 	api.GET("/pejabat", middleware.AuthMiddleware(authService, userService), pejabatHandler.GetByUnitKerjaID)
 	api.GET("/kategori-penerima", middleware.AuthMiddleware(authService, userService), kategoriPenerimaHandler)
 	api.GET("/unit-kerja", middleware.AuthMiddleware(authService, userService), unitKerjaHandler.GetAll)
+	api.GET("/keamanan", middleware.AuthMiddleware(authService, userService), keamananHandler)
 	r.Run(":8080")
 }
