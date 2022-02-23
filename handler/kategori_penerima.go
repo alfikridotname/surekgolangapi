@@ -8,10 +8,17 @@ import (
 )
 
 func GetKategoriPenerima(c *gin.Context) {
-	kategoriPenerima := map[int]string{
-		1: "EXTERNAL",
-		2: "INTERNAL",
-		3: "INTERNAL UNIT KERJA",
+	kategoriPenerima := []map[string]interface{}{
+		{
+			"id":   1,
+			"name": "EXTERNAL",
+		}, {
+			"id":   2,
+			"name": "INTERNAL",
+		}, {
+			"id":   3,
+			"name": "INTERNAL UNIT KERJA",
+		},
 	}
 
 	response := helper.APIResponse("Master Naskah", http.StatusOK, true, kategoriPenerima)
