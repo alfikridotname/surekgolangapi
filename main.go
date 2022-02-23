@@ -7,6 +7,7 @@ import (
 	"surekapi/middleware"
 	"surekapi/naskah"
 	"surekapi/pejabat"
+	"surekapi/unitkerja"
 	"surekapi/user"
 
 	"github.com/gin-gonic/gin"
@@ -37,6 +38,10 @@ func main() {
 	pejabatRepository := pejabat.NewRepository(db)
 	pejabatService := pejabat.NewService(pejabatRepository)
 	pejabatHandler := handler.NewPejabatHandler(pejabatService)
+	// Unit Kerja
+	unitKerjaRepository := unitkerja.NewRepository(db)
+	unitKerjaService := unitkerja.NewService(unitKerjaRepository)
+	unitKerjaHandler := handler.NewUnitKerjaHandler(unitKerjaService)
 
 	r := gin.Default()
 	api := r.Group("/api/v1")
@@ -44,5 +49,6 @@ func main() {
 	api.GET("/naskah", middleware.AuthMiddleware(authService, userService), masterNaskahHandler.GetAll)
 	api.GET("/pejabat", middleware.AuthMiddleware(authService, userService), pejabatHandler.GetByUnitKerjaID)
 	api.GET("/kategori-penerima", middleware.AuthMiddleware(authService, userService), kategoriPenerimaHandler)
+	api.GET("/unit-kerja", middleware.AuthMiddleware(authService, userService), unitKerjaHandler.GetAll)
 	r.Run(":8080")
 }
