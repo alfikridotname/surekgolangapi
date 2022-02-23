@@ -6,6 +6,7 @@ type User struct {
 	ID              int       `gorm:"primary_key" json:"id"`
 	Name            string    `json:"name"`
 	Username        string    `json:"username"`
+	Nip             string    `json:"nip"`
 	Email           string    `json:"email"`
 	EmailVerifiedAt time.Time `json:"email_verified_at"`
 	Password        string    `json:"password"`
