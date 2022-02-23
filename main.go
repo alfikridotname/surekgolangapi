@@ -50,6 +50,12 @@ func main() {
 	pemeriksaKonsepSuratHandler := handler.GetPemeriksa
 
 	r := gin.Default()
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"information": "Surek API is running...",
+		})
+	})
+
 	api := r.Group("/api/v1")
 	api.POST("/login", userHandler.Login)
 	api.GET("/naskah", middleware.AuthMiddleware(authService, userService), masterNaskahHandler.GetAll)
