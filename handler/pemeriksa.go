@@ -15,7 +15,8 @@ var s []map[string]string
 func GetPemeriksa(c *gin.Context) {
 	s = []map[string]string{}
 	currentUser := c.MustGet("currentUser").(user.User)
-	strukturPemeriksa(currentUser.Nip, "196801011988091001")
+	nipPenandatangan := c.Query("nip_penandatangan")
+	strukturPemeriksa(currentUser.Nip, nipPenandatangan)
 	response := helper.APIResponse("Daftar Pemeriksa", http.StatusOK, true, s)
 	c.JSON(http.StatusOK, response)
 }
