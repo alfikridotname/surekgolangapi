@@ -9,7 +9,7 @@ import (
 )
 
 type Repository interface {
-	Save(surat MasterSurat, tembusan string, penerimaID string) (bool, error)
+	Save(surat MasterSurat, tembusan string, penerimaID string, pemeriksa string) (bool, error)
 }
 
 type repository struct {
@@ -20,7 +20,7 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string) (bool, error) {
+func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string, pemeriksa string) (bool, error) {
 	tx := r.db.Begin()
 	surat.ID = uuid.NewV4()
 	if err := tx.Create(&surat).Error; err != nil {
@@ -53,6 +53,28 @@ func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string)
 			masterTembusan.JabatanID, _ = strconv.Atoi(jabatanID)
 
 			result := tx.Table("master_tembusan").Create(&masterTembusan)
+			if result.Error != nil {
+				tx.Rollback()
+				return false, result.Error
+			}
+		}
+	}
+
+	if pemeriksa != "" {
+		pemeriksaSlice := strings.Split(pemeriksa, ",")
+		pemeriksaAktif, _ := strconv.Atoi(pemeriksaSlice[0])
+
+		for _, jabatanID := range pemeriksaSlice {
+			masterPemeriksa := MasterPemeriksa{}
+			masterPemeriksa.MasterSuratID = surat.ID.String()
+			jabatanID, _ := strconv.Atoi(jabatanID)
+			masterPemeriksa.JabatanID = jabatanID
+
+			if jabatanID == pemeriksaAktif {
+				masterPemeriksa.StatusKoreksi = true
+			}
+
+			result := tx.Table("master_pemeriksa").Create(&masterPemeriksa)
 			if result.Error != nil {
 				tx.Rollback()
 				return false, result.Error

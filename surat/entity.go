@@ -35,6 +35,15 @@ type MasterPenerima struct {
 	UnitKerjaID   int    `json:"unit_kerja_id"`
 }
 
+type MasterPemeriksa struct {
+	ID            int    `json:"id"`
+	MasterSuratID string `json:"master_surat_id"`
+	JabatanID     int    `json:"jabatan_id"`
+	StatusKoreksi bool   `json:"status_koreksi" default:"false"`
+	StatusPembuat bool   `json:"status_pembuat" default:"false"`
+	StatusTTE     bool   `json:"status_tte" default:"false"`
+}
+
 type Tabler interface {
 	TableName() string
 }
@@ -49,4 +58,8 @@ func (MasterTembusan) TableName() string {
 
 func (MasterPenerima) TableName() string {
 	return "master_penerima"
+}
+
+func (MasterPemeriksa) TableName() string {
+	return "master_pemeriksa"
 }

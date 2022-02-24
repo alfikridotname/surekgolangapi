@@ -11,7 +11,9 @@ type BuatSuratInput struct {
 	Tgl                string `json:"tgl" binding:"required"`
 	Perihal            string `json:"perihal" binding:"required"`
 	Tembusan           string `json:"tembusan"`
+	Pemeriksa          string `json:"pemeriksa"`
 	Isi                string `json:"isi" binding:"required"`
 	CreatedBy          int    `json:"created_by"`
 	UpdatedBy          int    `json:"updated_by"`
+	CreatedNIP         string
 }
