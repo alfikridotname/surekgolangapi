@@ -41,5 +41,6 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
+	gorm.io/datatypes v1.0.5
 	gorm.io/driver/mysql v1.3.2
 )

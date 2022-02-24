@@ -3,8 +3,10 @@ package surat
 import (
 	"strconv"
 	"strings"
+	"surekapi/notifikasi"
 
 	uuid "github.com/satori/go.uuid"
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
@@ -78,6 +80,17 @@ func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string,
 			if result.Error != nil {
 				tx.Rollback()
 				return false, result.Error
+			}
+
+			notifikasiRepo := notifikasi.NewRepository(tx)
+			notifikasiInput := notifikasi.MasterNotifikasi{}
+			notifikasiInput.Data = datatypes.JSON([]byte(`{"kategori": "konsep","surat_id": "` + surat.ID.String() + `"}`))
+			notifikasiInput.UserTujuanID = jabatanID
+			notifikasiInput.CreatedBY = surat.CreatedBy
+			ok, err := notifikasiRepo.Save(notifikasiInput)
+			if !ok {
+				tx.Rollback()
+				return false, err
 			}
 		}
 	}
