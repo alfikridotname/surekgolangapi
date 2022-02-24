@@ -24,9 +24,15 @@ type MasterSurat struct {
 }
 
 type MasterTembusan struct {
-	ID            int       `gorm:"primary_key" json:"id"`
-	MasterSuratID uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4()"`
-	JabatanID     int       `json:"jabatan_id"`
+	ID            int    `gorm:"primary_key" json:"id"`
+	MasterSuratID string `json:"master_surat_id"`
+	JabatanID     int    `json:"jabatan_id"`
+}
+
+type MasterPenerima struct {
+	ID            int    `json:"id"`
+	MasterSuratID string `json:"master_surat_id"`
+	UnitKerjaID   int    `json:"unit_kerja_id"`
 }
 
 type Tabler interface {
@@ -39,4 +45,8 @@ func (MasterSurat) TableName() string {
 
 func (MasterTembusan) TableName() string {
 	return "master_tembusan"
+}
+
+func (MasterPenerima) TableName() string {
+	return "master_penerima"
 }

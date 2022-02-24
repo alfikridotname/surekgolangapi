@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 	"surekapi/auth"
@@ -49,5 +50,17 @@ func AuthMiddleware(authService auth.Service, userService user.Service) gin.Hand
 		}
 
 		c.Set("currentUser", user)
+	}
+}
+
+func PermissionMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		user := c.MustGet("currentUser").(user.User)
+		fmt.Println(user)
+		// if user.ID != 1 {
+		// 	response := helper.APIResponse("Unauthorized, Anda tidak memiliki akses terhadap rute ini !!", http.StatusUnauthorized, false, nil)
+		// 	c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+		// 	return
+		// }
 	}
 }

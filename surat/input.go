@@ -5,6 +5,7 @@ type BuatSuratInput struct {
 	NaskahID           int    `json:"naskah_id" binding:"required"`
 	SignerID           int    `json:"signer_id" binding:"required"`
 	AtasNamaID         int    `json:"atas_nama_id" binding:"required"`
+	PenerimaID         string `json:"penerima_id" binding:"required"`
 	KeamananID         int    `json:"keamanan_id" binding:"required"`
 	KecepatanID        int    `json:"kecepatan_id" binding:"required"`
 	Tgl                string `json:"tgl" binding:"required"`
