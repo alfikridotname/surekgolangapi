@@ -35,6 +35,7 @@ func (h *suratHandler) CreateSurat(c *gin.Context) {
 	input.CreatedBy = currentUser.ID
 	input.UpdatedBy = currentUser.ID
 	input.CreatedNIP = currentUser.Nip
+	input.UnitKerjaID = currentUser.UnitKerjaID
 
 	_, err = h.service.CreateSurat(input)
 	if err != nil {

@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"strings"
 	"surekapi/notifikasi"
+	"surekapi/pegawai"
 
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/datatypes"
@@ -11,7 +12,7 @@ import (
 )
 
 type Repository interface {
-	Save(surat MasterSurat, tembusan string, penerimaID string, pemeriksa string) (bool, error)
+	Save(surat MasterSurat, tembusan string, penerimaID string, pemeriksa string, unitKerjaID int) (bool, error)
 }
 
 type repository struct {
@@ -22,7 +23,7 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string, pemeriksa string) (bool, error) {
+func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string, pemeriksa string, unitKerjaID int) (bool, error) {
 	tx := r.db.Begin()
 	surat.ID = uuid.NewV4()
 	if err := tx.Create(&surat).Error; err != nil {
@@ -72,6 +73,9 @@ func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string,
 			jabatanID, _ := strconv.Atoi(jabatanID)
 			masterPemeriksa.JabatanID = jabatanID
 
+			pegawaiRepo := pegawai.NewRepository(tx)
+			user, _ := pegawaiRepo.FindUser(unitKerjaID, jabatanID)
+
 			if jabatanID == pemeriksaAktif {
 				masterPemeriksa.StatusKoreksi = true
 			}
@@ -85,7 +89,7 @@ func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string,
 			notifikasiRepo := notifikasi.NewRepository(tx)
 			notifikasiInput := notifikasi.MasterNotifikasi{}
 			notifikasiInput.Data = datatypes.JSON([]byte(`{"kategori": "konsep","surat_id": "` + surat.ID.String() + `"}`))
-			notifikasiInput.UserTujuanID = jabatanID
+			notifikasiInput.UserTujuanID = user.ID
 			notifikasiInput.CreatedBY = surat.CreatedBy
 			ok, err := notifikasiRepo.Save(notifikasiInput)
 			if !ok {

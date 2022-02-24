@@ -26,7 +26,7 @@ func (s *service) CreateSurat(input BuatSuratInput) (bool, error) {
 	masterSurat.CreatedBy = input.CreatedBy
 	masterSurat.UpdatedBy = input.UpdatedBy
 
-	_, err := s.repository.Save(masterSurat, input.Tembusan, input.PenerimaID, input.Pemeriksa)
+	_, err := s.repository.Save(masterSurat, input.Tembusan, input.PenerimaID, input.Pemeriksa, input.UnitKerjaID)
 	if err != nil {
 		return false, err
 	}
