@@ -41,7 +41,7 @@ func FormatValidationError(err error) []string {
 	return errors
 }
 
-func inArray(val interface{}, array interface{}) (index int) {
+func InArray(val interface{}, array interface{}) (index int) {
 	values := reflect.ValueOf(array)
 
 	if reflect.TypeOf(array).Kind() == reflect.Slice || values.Len() > 0 {
