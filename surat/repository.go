@@ -12,7 +12,7 @@ import (
 )
 
 type Repository interface {
-	Save(surat MasterSurat, tembusan string, penerimaID string, pemeriksa string, unitKerjaID int, jabatanID int) (bool, error)
+	Save(surat MasterSurat, input BuatSuratInput) (bool, error)
 }
 
 type repository struct {
@@ -23,7 +23,7 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string, pemeriksa string, unitKerjaID int, inputJabatanID int) (bool, error) {
+func (r *repository) Save(surat MasterSurat, input BuatSuratInput) (bool, error) {
 	tx := r.db.Begin()
 	surat.ID = uuid.NewV4()
 	if err := tx.Create(&surat).Error; err != nil {
@@ -31,8 +31,8 @@ func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string,
 		return false, err
 	}
 
-	if penerimaID != "" {
-		penerimaIDSlice := strings.Split(penerimaID, ",")
+	if input.PenerimaID != "" {
+		penerimaIDSlice := strings.Split(input.PenerimaID, ",")
 
 		for _, penerima := range penerimaIDSlice {
 			masterPenerima := MasterPenerima{}
@@ -47,8 +47,8 @@ func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string,
 		}
 	}
 
-	if tembusan != "" {
-		tembusanSlice := strings.Split(tembusan, ",")
+	if input.Tembusan != "" {
+		tembusanSlice := strings.Split(input.Tembusan, ",")
 
 		for _, jabatanID := range tembusanSlice {
 			masterTembusan := MasterTembusan{}
@@ -63,11 +63,11 @@ func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string,
 		}
 	}
 
-	if pemeriksa != "" {
+	if input.Pemeriksa != "" {
 		// Slice data pemeriksa
-		pemeriksaSlice := strings.Split(pemeriksa, ",")
+		pemeriksaSlice := strings.Split(input.Pemeriksa, ",")
 		// Tambah pembuat konsep sebagai pemeriksa
-		createdJabatanID := inputJabatanID
+		createdJabatanID := input.JabatanID
 		createdBy := strconv.Itoa(surat.CreatedBy)
 		creatorID := strconv.Itoa(createdJabatanID) + "-" + createdBy
 		pemeriksaSlice = append([]string{creatorID}, pemeriksaSlice...)
@@ -89,7 +89,7 @@ func (r *repository) Save(surat MasterSurat, tembusan string, penerimaID string,
 
 			// Cari data user berdasarkan jabatan id menggunakan pegawai repository
 			pegawaiRepo := pegawai.NewRepository(tx)
-			user, _ := pegawaiRepo.FindUser(unitKerjaID, jabatanID)
+			user, _ := pegawaiRepo.FindUser(input.UnitKerjaID, jabatanID)
 
 			// Jika jabatan pmeriksa adalah aktif
 			if jabatanID == pemeriksaAktif {
