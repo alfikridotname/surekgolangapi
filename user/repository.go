@@ -17,7 +17,11 @@ func NewRepository(db *gorm.DB) *repository {
 
 func (r *repository) FindByID(ID int) (User, error) {
 	var user User
-	err := r.db.Select("users.id, users.name, master_pegawai.nip, master_pegawai.unit_kerja_id").Joins("LEFT JOIN master_pegawai ON users.username = master_pegawai.nip").Where("users.id = ?", ID).Find(&user).Error
+	err := r.db.Select(`users.id, 
+						users.name, 
+						master_pegawai.nip,
+						master_pegawai.jabatan_id, 
+						master_pegawai.unit_kerja_id`).Joins(`LEFT JOIN master_pegawai ON users.username = master_pegawai.nip`).Where("users.id = ?", ID).Find(&user).Error
 	if err != nil {
 		return user, err
 	}

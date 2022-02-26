@@ -14,4 +14,5 @@ type User struct {
 	CreatedAt       time.Time `json:"created_at"`
 	UpdatedAt       time.Time `json:"updated_at"`
 	UnitKerjaID     int       `json:"unit_kerja_id"`
+	JabatanID       int       `json:"jabatan_id"`
 }
