@@ -67,25 +67,16 @@ func (r *repository) Save(surat MasterSurat, input BuatSuratInput) (bool, error)
 		// Slice data pemeriksa
 		pemeriksaSlice := strings.Split(input.Pemeriksa, ",")
 		// Tambah pembuat konsep sebagai pemeriksa
-		createdJabatanID := input.JabatanID
-		createdBy := strconv.Itoa(surat.CreatedBy)
-		creatorID := strconv.Itoa(createdJabatanID) + "-" + createdBy
-		pemeriksaSlice = append([]string{creatorID}, pemeriksaSlice...)
+		pemeriksaSlice = append([]string{strconv.Itoa(input.JabatanID)}, pemeriksaSlice...)
 		// Ambil data pemeriksa aktif
 		pemeriksaAktif, _ := strconv.Atoi(pemeriksaSlice[1])
 
 		for index, pemeriksa := range pemeriksaSlice {
-			// Split data pemeriksa
-			pemeriksaSlice := strings.Split(pemeriksa, "-")
-			jabatanIDSlice := pemeriksaSlice[0]
-			userIDSlice := pemeriksaSlice[1]
-
 			// Struct master pemeriksa
 			masterPemeriksa := MasterPemeriksa{}
 			masterPemeriksa.MasterSuratID = surat.ID.String()
-			jabatanID, _ := strconv.Atoi(jabatanIDSlice)
+			jabatanID, _ := strconv.Atoi(pemeriksa)
 			masterPemeriksa.JabatanID = jabatanID
-			masterPemeriksa.UserID, _ = strconv.Atoi(userIDSlice)
 
 			// Cari data user berdasarkan jabatan id menggunakan pegawai repository
 			pegawaiRepo := pegawai.NewRepository(tx)
@@ -98,6 +89,7 @@ func (r *repository) Save(surat MasterSurat, input BuatSuratInput) (bool, error)
 
 			// Jika pembuat konsep
 			if index == 0 {
+				masterPemeriksa.UserID = surat.CreatedBy
 				masterPemeriksa.StatusPembuat = true
 			}
 
