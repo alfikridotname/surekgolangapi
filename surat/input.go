@@ -17,5 +17,6 @@ type BuatSuratInput struct {
 	CreatedBy          int    `json:"created_by"`
 	UpdatedBy          int    `json:"updated_by"`
 	CreatedNIP         string
+	JabatanID          int
 	UnitKerjaID        int
 }

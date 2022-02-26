@@ -36,12 +36,15 @@ type MasterPenerima struct {
 }
 
 type MasterPemeriksa struct {
-	ID            int    `json:"id"`
-	MasterSuratID string `json:"master_surat_id"`
-	JabatanID     int    `json:"jabatan_id"`
-	StatusKoreksi bool   `json:"status_koreksi" default:"false"`
-	StatusPembuat bool   `json:"status_pembuat" default:"false"`
-	StatusTTE     bool   `json:"status_tte" default:"false"`
+	ID            int       `json:"id"`
+	MasterSuratID string    `json:"master_surat_id"`
+	JabatanID     int       `json:"jabatan_id"`
+	UserID        int       `json:"user_id"`
+	StatusKoreksi bool      `json:"status_koreksi" default:"false"`
+	StatusPembuat bool      `json:"status_pembuat" default:"false"`
+	StatusTTE     bool      `json:"status_tte" default:"false"`
+	CreatedAt     time.Time `json:"created_at"`
+	UpdatedAt     time.Time `json:"updated_at"`
 }
 
 type Tabler interface {
