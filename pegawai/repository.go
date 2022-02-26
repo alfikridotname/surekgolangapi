@@ -16,7 +16,7 @@ func NewRepository(db *gorm.DB) *repository {
 
 func (r *repository) FindUser(unitKerjaID, jabatanID int) (UserID, error) {
 	var userID UserID
-	// err := r.db.Select("B.id").Joins("LEFT JOIN users B ON master_pegawai.nip = B.username").Where("master_pegawai.unit_kerja_id = ? AND master_pegawai.jabatan_id = ?", unitKerjaID, jabatanID).Find(&pegawai).Error
+
 	err := r.db.Raw(`SELECT
 						B.id
 					FROM
