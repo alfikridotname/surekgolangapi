@@ -1,6 +1,8 @@
 package helper
 
 import (
+	"reflect"
+
 	"github.com/go-playground/validator/v10"
 )
 
@@ -37,4 +39,18 @@ func FormatValidationError(err error) []string {
 	}
 
 	return errors
+}
+
+func inArray(val interface{}, array interface{}) (index int) {
+	values := reflect.ValueOf(array)
+
+	if reflect.TypeOf(array).Kind() == reflect.Slice || values.Len() > 0 {
+		for i := 0; i < values.Len(); i++ {
+			if reflect.DeepEqual(val, values.Index(i).Interface()) {
+				return i
+			}
+		}
+	}
+
+	return -1
 }
