@@ -26,7 +26,7 @@ func strukturPemeriksa(nipPembuat string, nipPemeriksa string) (string, bool) {
 	nipAwal := nipPembuat
 	nipAkhir := nipPemeriksa
 
-	url := "http://simpeg.bkd.sumbarprov.go.id/webapi/pegawai/asn/pimpinan/token/XBnKaywRCrj05m-XXX-v6DXuZ3FFkUgiw45/nip/" + nipAwal
+	url := "http://testing2.sumbarprov.go.id/simpegdev/webapi/pegawai/asn/pimpinan/token/XBnKaywRCrj05m-XXX-v6DXuZ3FFkUgiw45/nip/" + nipAwal
 	method := "GET"
 
 	client := &http.Client{}
