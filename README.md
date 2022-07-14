@@ -1,3 +1,3 @@
 # SUREK GOLANG API
 
-#### Belajar Golang menggunakan Studi Kasuk Aplikasi Persuratan
+#### Belajar Golang menggunakan Studi Kasus Aplikasi Persuratan
